@@ -22,35 +22,40 @@ const TimerApp = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
   return (
-    <div className="min-h-screen flex flex-col items-center py-12 px-4 relative overflow-hidden transition-colors duration-1000">
+    <div className="min-h-screen flex flex-col items-center py-6 px-4 md:py-12 relative overflow-hidden transition-colors duration-1000">
       {/* Dynamic Background */}
       <div 
-        className="absolute inset-0 z-0 opacity-20 transition-colors duration-1000"
+        className="absolute inset-0 z-0 opacity-25 transition-colors duration-1000"
         style={{
-          background: `radial-gradient(circle at center, ${
+          background: `radial-gradient(circle at 50% 30%, ${
             mode === 'pomodoro' ? '#FF4757' : 
             mode === 'shortBreak' ? '#2ED573' : '#1E90FF'
-          } 0%, transparent 70%)`
+          } 0%, transparent 60%)`
         }}
       />
 
-      <div className="z-10 w-full max-w-4xl flex flex-col items-center">
-        <div className="w-full flex justify-end mb-4 pr-4">
+      <div className="z-10 w-full max-w-md flex flex-col items-center">
+        {/* Mobile Header / Quick Settings */}
+        <div className="w-full flex justify-between items-center mb-6 px-2">
+          <div className="flex flex-col">
+            <h1 className="text-3xl font-extrabold text-white tracking-tight">Focus Flow</h1>
+            <p className="text-gray-400 text-xs tracking-wider uppercase font-semibold">Stay productive</p>
+          </div>
           <button 
             onClick={() => setIsSettingsOpen(true)}
-            className="p-3 glass-panel hover:bg-white/10 transition-colors rounded-full"
+            className="p-3.5 glass-panel hover:bg-white/10 active:scale-95 transition-all rounded-full cursor-pointer"
             title="Settings"
+            aria-label="Settings"
           >
-            <SettingsIcon className="w-6 h-6 text-white" />
+            <SettingsIcon className="w-5 h-5 text-white" />
           </button>
         </div>
 
-        <h1 className="text-4xl font-bold text-white mb-2 tracking-tight">Focus Flow</h1>
-        <p className="text-gray-400 mb-8 tracking-widest uppercase text-sm font-semibold">Stay productive, take breaks</p>
-
-        <div className="flex flex-col md:flex-row gap-8 w-full justify-center items-start">
-          <div className="flex flex-col items-center">
-            <TimerRing progress={progress} timeLeft={timeLeft} mode={mode} />
+        {/* Center Main Timer Ring */}
+        <div className="w-full flex flex-col items-center">
+          <TimerRing progress={progress} timeLeft={timeLeft} mode={mode} />
+          
+          <div className="w-full mt-4 flex flex-col items-center gap-6">
             <TimerControls 
               isActive={isActive} 
               toggleTimer={toggleTimer} 
@@ -58,10 +63,9 @@ const TimerApp = () => {
               skipTimer={skipTimer}
               mode={mode} 
             />
+            
             <Statistics />
-          </div>
-
-          <div className="flex flex-col items-center w-full md:w-auto">
+            
             <TaskList />
           </div>
         </div>
